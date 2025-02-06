@@ -79,6 +79,27 @@ void OM_draw_rect(OM_rect_t rect) {
     if (!use_opengl_l) {
         SDL_FRect temp_rect = {rect.x, rect.y, rect.w, rect.h};
         SDL_RenderFillRectF(renderer, &temp_rect);
+    }else{
+      float x_gl, y_gl, w_gl, h_gl;
+      
+      if (rect.x > 1.f || rect.y > 1.f || rect.x < -1.f || rect.y < -1.f) {
+          x_gl = (2.0f * rect.x / (float)OM_get_win_width()) - 1.0f;
+          y_gl = 1.0f - (2.0f * rect.y / (float)OM_get_win_height());
+          w_gl = (2.0f * rect.w / (float)OM_get_win_width());
+          h_gl = (2.0f * rect.h / (float)OM_get_win_height());
+      } else {
+          x_gl = rect.x;
+          y_gl = rect.y;
+          w_gl = rect.w;
+          h_gl = rect.h;
+      }
+      glBegin(GL_QUADS);
+          glVertex2f(x_gl - w_gl / 2, y_gl + h_gl / 2);
+          glVertex2f(x_gl + w_gl / 2, y_gl + h_gl / 2);
+          glVertex2f(x_gl + w_gl / 2, y_gl - h_gl / 2);
+          glVertex2f(x_gl - w_gl / 2, y_gl - h_gl / 2);
+      glEnd();
+      glFlush();
     }
 }
 
