@@ -1,6 +1,5 @@
 #include "rendering.h"
 #include "win.h"
-#include <GL/gl.h>
 
 static SDL_Renderer *renderer;
 static SDL_GLContext *ctx;
